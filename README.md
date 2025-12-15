@@ -111,7 +111,8 @@ A interface foi desenvolvida em HTML simples, servida diretamente pelo ESP-01 vi
 ## 8. Problemas Encontrados e Soluções
 Durante o desenvolvimento, enfrentamos desafios significativos, especialmente na clonagem de sinais infravermelhos.
 
-### 1. Sucesso com TV vs. Falha com Ar-CondicionadoO sistema funcionou perfeitamente para clonar e replicar comandos de uma TV Samsung e receptores de mídia genéricos. Conseguimos ler os códigos (ex: protocolo NEC), salvá-los e reenviá-los com sucesso.
+### 1. Sucesso com TV vs. Falha com Ar-Condicionado
+O sistema funcionou perfeitamente para clonar e replicar comandos de uma TV Samsung e receptores de mídia genéricos. Conseguimos ler os códigos (ex: protocolo NEC), salvá-los e reenviá-los com sucesso.
 
 No entanto, ao tentar controlar um **Ar-Condicionado (Split)**, o sistema falhou.
 
