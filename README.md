@@ -58,57 +58,52 @@ A escolha do **Arduino Mega 2560** foi estratégica para garantir o desempenho e
 
 
 ## 6. Interface do Usuário
-A interface foi desenvolvida em HTML simples, servida diretamente pelo ESP-01 via comandos AT. Ela permite visualizar a temperatura e acionar os comandos salvos.
+A interface foi desenvolvida em React VITE, servida diretamente por conexão com o Firebase. Ela permite visualizar a temperatura.
 
+<img src="./Imagens/front.jpeg" alt="Foto da montagem real do projeto" width="1000"/>
 
 ---
 
-## 7. Diário de Bordo 
-📅Abaixo, o registro das atividades desenvolvidas durante o cronograma do projeto:
+## 7. Foto do Projeto Montado
 
-**18/11 - Planejamento e Primeiros Testes:**
-* Definição do escopo do projeto.
-* Levantamento de materiais e estudo do datasheet do Arduino Mega.
-* Primeiros testes com o sensor DHT22 para leitura de temperatura no Serial Monitor.
+<img src="./Imagens/circuito.jpeg" alt="Foto da montagem real do projeto" width="250"/>
+---
 
+## 8. Diário de Bordo 
+Abaixo, o registro cronológico das atividades desenvolvidas, organizado por semanas de trabalho:
 
-**19/11 - Integração do Módulo Wi-Fi:**
-* Início dos testes com o ESP-01.
-* Configuração dos comandos AT para conectar na rede Wi-Fi.
-* Dificuldades iniciais com a alimentação de 3.3V do ESP (instabilidade).
+### **Semana 1: 17/11 a 23/11 — Planejamento e Fundamentos**
+**Foco:** Definição do escopo, testes de sensores e conectividade inicial.
 
+* **Planejamento:** Definição do escopo do projeto (Automação de AC via Wi-Fi) e levantamento dos materiais necessários.
+* **Sensores:** Estudo do datasheet do Arduino Mega e validação do sensor DHT22 (leitura de temperatura/umidade no Serial Monitor).
+* **Conectividade (ESP-01):** Início dos testes com o módulo Wi-Fi. Configuração dos comandos AT.
+* **Desafios:** Enfrentamos instabilidade na comunicação com o ESP-01, identificada como problemas na alimentação de 3.3V, exigindo ajustes no circuito.
 
-**25/11 - Servidor Web Básico:**
-* Criação do código HTML básico dentro do Arduino para ser enviado pelo ESP-01.
-* Implementação da comunicação `Serial1` no Arduino Mega para conversar com o ESP.
-* Sucesso ao acessar o IP do Arduino pelo navegador do celular.
+### **Semana 2: 24/11 a 30/11 — Interface Web e Infravermelho Básico**
+**Foco:** Criação do servidor e testes com protocolos simples (TV).
 
+* **Servidor Web:** Desenvolvimento do código HTML embarcado no Arduino. Implementação bem-sucedida da comunicação via `Serial1` (Hardware Serial) do Mega, permitindo acesso ao IP pelo navegador do celular.
+* **Infravermelho (Recepção):** Instalação da biblioteca `IRremote` (v4.x) e montagem do receptor KY-022.
+* **Sucesso Inicial:** Conseguimos ler, decodificar e replicar códigos de um controle remoto de TV Samsung (Protocolo NEC), validando a lógica de clonagem para sinais curtos.
 
-**26/11 - Infravermelho (Recepção):**
-* Instalação da biblioteca `IRremote` (versão 4.x).
-* Montagem do receptor KY-022.
-* Sucesso na leitura e clonagem de códigos de um controle remoto de TV Samsung (Protocolo NEC).
+### **Semana 3: 01/12 a 07/12 — Integração e Estruturação do Código**
+**Foco:** Unificação dos módulos e preparação para o Ar-Condicionado.
 
+* **Integração de Sistemas:** Fusão dos códigos do Servidor Web com a lógica de Infravermelho.
+* **Refinamento do Hardware:** Organização dos componentes na protoboard para melhorar a estabilidade das conexões.
+* **Testes de Envio:** Ajustes no circuito do emissor IR (LED) e testes de alcance com a TV, preparando o terreno para o controle do Ar-Condicionado na semana seguinte.
 
-**09/12 - O Desafio do Ar-Condicionado:**
-* Tentativa de clonar o controle do Ar-Condicionado (Split).
-* **Problema:** O código recebido era identificado como `UNKNOWN` ou `OVERFLOW`.
-* Descobrimos que o pacote de dados do AC é muito maior que o da TV, contendo todas as informações de estado (Temp, Fan, Mode) em um único envio.
+### **Semana 4: 08/12 a 14/12 — O Desafio do AC e Finalização**
+**Foco:** Protocolos complexos, debugging e documentação final.
 
-
-**10/12 - Tentativas de Solução e Buffer:**
-* Tentativa de aumentar o buffer de leitura da biblioteca IR.
-* Análise dos códigos binários.
-* Ajustes no circuito do emissor (troca de resistores para aumentar potência do LED).
-
-
-**11/12 - Finalização e Documentação:**
-* Refinamento da interface Web.
-* Montagem final na protoboard para apresentação.
-* Redação deste relatório e documentação dos problemas enfrentados com o protocolo do Ar-Condicionado.
+* **O Problema do AC:** Tentativa de clonar o controle do Ar-Condicionado (Split). O sinal era identificado como `UNKNOWN` ou gerava `OVERFLOW`.
+* **Análise Técnica:** Descobrimos que o pacote de dados de um AC é muito maior que o de uma TV, enviando o estado completo (Temperatura, Modo, Fan, Checksum) em um único pulso, o que estourava o buffer padrão da biblioteca.
+* **Tentativas de Solução:** Realizamos o aumento do buffer de leitura, análise dos códigos binários "RAW" e troca de resistores para aumentar a potência do LED emissor.
+* **Entrega:** Refinamento final da interface Web, montagem final do protótipo para apresentação e redação da documentação técnica relatando as limitações encontradas com o protocolo proprietário do AC.
 
 
-## 8. Problemas Encontrados e Soluções
+## 9. Problemas Encontrados e Soluções
 Durante o desenvolvimento, enfrentamos desafios significativos, especialmente na clonagem de sinais infravermelhos.
 
 ### 1. Sucesso com TV vs. Falha com Ar-Condicionado
