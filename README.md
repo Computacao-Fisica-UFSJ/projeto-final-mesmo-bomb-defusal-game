@@ -104,26 +104,37 @@ Abaixo, o registro cronológico das atividades desenvolvidas, organizado por sem
 
 
 ## 9. Problemas Encontrados e Soluções
-Durante o desenvolvimento, enfrentamos desafios significativos, especialmente na clonagem de sinais infravermelhos.
+Durante o desenvolvimento, o projeto enfrentou desafios técnicos relacionados à eletrônica e ao processamento de sinais. Abaixo, detalhamos os quatro principais obstáculos.
 
-### 1. Sucesso com TV vs. Falha com Ar-Condicionado
-O sistema funcionou perfeitamente para clonar e replicar comandos de uma TV Samsung e receptores de mídia genéricos. Conseguimos ler os códigos (ex: protocolo NEC), salvá-los e reenviá-los com sucesso.
+### 1. Complexidade e Tamanho dos Sinais de Ar-Condicionado
+Diferente de TVs, que enviam códigos curtos e simples (ex: 32 bits), os controles de ar-condicionado enviam o "estado completo" do aparelho a cada comando, gerando sequências de dados muito longas.
 
-No entanto, ao tentar controlar um **Ar-Condicionado (Split)**, o sistema falhou.
+* **O Problema:** A biblioteca de infravermelho frequentemente falhava ao capturar o sinal, interpretando-o como `UNKNOWN`, ou travava o microcontrolador devido ao estouro de memória (buffer overflow).
+* **A Causa:** O buffer padrão de recepção não era suficiente para armazenar as centenas de pulsos "RAW" (brutos) necessários para representar um único comando complexo de ar-condicionado.
+* **Solução/Desfecho:** Foi necessário aumentar manualmente o tamanho do buffer de recepção (`RAW_BUFFER_LENGTH`) nas configurações da biblioteca e otimizar o código para lidar apenas com arrays de dados brutos, abandonando a tentativa de decodificação hexadecimal para estes aparelhos.
 
-* **O Problema:** Diferente de TVs que enviam um código simples (ex: 32 bits, `0x2FD48B7`) indicando apenas "Botão Power", os controles de Ar-Condicionado enviam o **estado completo** do aparelho em cada aperto de botão (Temperatura desejada + Modo + Velocidade Fan + Swing + Checksum).
-* **Consequência:** Isso gera um código "RAW" (bruto) extremamente longo, com centenas de variações de pulsos.
-* **Resultado:** A biblioteca muitas vezes interpretava o sinal como `UNKNOWN` (Desconhecido) ou o buffer de memória do Arduino estourava ao tentar armazenar a sequência completa, resultando em um envio incompleto que o ar-condicionado ignorava.
+### 2. Instabilidade na Alimentação e Limitações do Hardware
+Durante a integração do módulo Wi-Fi ESP-01, o sistema apresentava comportamento errático e falhas de comunicação.
 
-### 2. Alimentação do ESP-01
-O módulo ESP-01 consome picos de corrente que a saída 3.3V do Arduino às vezes não suporta, causando reinicializações e desconexões do Wi-Fi.
+* **O Problema:** O módulo sofria reinicializações aleatórias e desconexões frequentes da rede ao tentar enviar dados, comprometendo a comunicação com o servidor.
+* **A Causa:** Identificou-se que o regulador de tensão de 3.3V do **Arduino Uno** não conseguia fornecer a corrente estável necessária para suportar os picos de consumo do ESP-01 durante a transmissão Wi-Fi.
+* **Solução/Desfecho:** A solução adotada foi a substituição do microcontrolador: trocou-se o Arduino Uno pelo **Arduino Mega 2560**. O Mega ofereceu maior robustez na alimentação e capacidade de processamento, eliminando as quedas de tensão críticas e estabilizando a conexão do módulo Wi-Fi.
 
-* *Solução:* O ideal em projetos definitivos é usar uma fonte externa de 3.3V ou um capacitor eletrolítico junto aos pinos de alimentação do ESP para estabilizar a tensão.
+### 3. Conflito de Timers no Hardware (PWM)
+Inicialmente, o emissor infravermelho (LED IR) não funcionava, embora o código compilasse sem erros.
 
-### 3. Conflito de Timers
-Inicialmente, tentamos usar o emissor IR em outros pinos PWM. O código compilava, mas o LED não emitia o sinal modulado corretamente. Foi necessário estudar a documentação da biblioteca `IRremote` para descobrir que, no Arduino Mega, o uso do pino 9 é mandatório para a modulação de hardware correta.
+* **O Problema:** O LED piscava, mas o sinal não era modulado na frequência correta (38kHz), tornando-o invisível para os receptores dos aparelhos.
+* **A Causa:** Restrição de hardware da biblioteca `IRremote`. No Arduino Mega, a modulação de sinal infravermelho é atrelada a timers específicos que obrigam o uso do **Pino 9**. O uso de outros pinos PWM não gera a onda portadora correta.
+* **Solução/Desfecho:** A leitura aprofundada da documentação permitiu identificar a restrição e realizar a troca física da conexão para o pino mandatório, resolvendo a emissão do sinal.
 
-## 9. Referências
+### 4. Inviabilidade de Comunicação com Equipamento Elgin
+Apesar do sucesso com TVs e receptores de mídia, a integração específica com o ar-condicionado da marca Elgin não foi concluída.
+
+* **O Problema:** O aparelho Elgin ignorava sistematicamente os comandos replicados pelo Arduino, mesmo quando estes pareciam idênticos aos originais sob análise lógica.
+* **A Causa:** O protocolo proprietário da Elgin não possui documentação pública e demonstrou uma sensibilidade extrema a variações de microssegundos (*timing jitter*). As pequenas imprecisões temporais naturais da execução do código no Arduino foram suficientes para que o receptor do ar-condicionado rejeitasse o sinal como ruído.
+* **Solução/Desfecho:** Em razão das **sucessivas tentativas sem sucesso** na replicação do sinal e da instabilidade persistente na comunicação, a funcionalidade de controle remoto para este modelo de ar-condicionado foi **abandonada** no escopo final do projeto.
+
+## 10. Referências
 * **Medição de Temperatura:** [Arduino and DHT22 Temperature Measurement](https://www.instructables.com/Arduino-and-DHT22-AM2302-Temperature-Measurement/)
 * **Conectividade Wi-Fi:** [Conectando o Arduino à internet com ESP-01](https://curtocircuito.com.br/blog/IoT/conectando-o-arduino-a-internet-com-esp01)
 * **Infravermelho:** [Guia Completo do Controle Remoto IR](https://blog.eletrogate.com/guia-completo-do-controle-remoto-ir-receptor-ir-para-arduino/)
