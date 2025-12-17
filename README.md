@@ -67,9 +67,20 @@ A interface foi desenvolvida em React VITE, servida diretamente por conexão com
 ## 7. Foto do Projeto Montado
 
 <img src="./Imagens/circuito.jpeg" alt="Foto da montagem real do projeto" width="250"/>
----
 
-## 8. Diário de Bordo 
+
+## 8. Demonstração do Projeto (Vídeos)
+
+<table style="width: 100%; text-align: center;"> 
+<tr> <td>
+<strong>Clonagem de IR</strong></td> 
+<td><strong>Monitoramento de Temperatura</strong></td> 
+</tr> <tr> 
+<td> <video src="./Vídeos/clonar.mp4" width="350" controls> Seu navegador não suporta o elemento de vídeo. </video> </td> 
+<td> <video src="./Vídeos/temperatura.mp4" width="350" controls> Seu navegador não suporta o elemento de vídeo. </video> </td> 
+</tr> </table>
+
+## 9. Diário de Bordo 
 Abaixo, o registro cronológico das atividades desenvolvidas, organizado por semanas de trabalho:
 
 ### **Semana 1: 17/11 a 23/11 — Planejamento e Fundamentos**
@@ -103,7 +114,7 @@ Abaixo, o registro cronológico das atividades desenvolvidas, organizado por sem
 * **Entrega:** Refinamento final da interface Web, montagem final do protótipo para apresentação e redação da documentação técnica relatando as limitações encontradas com o protocolo proprietário do AC.
 
 
-## 9. Problemas Encontrados e Soluções
+## 10. Problemas Encontrados e Soluções
 Durante o desenvolvimento, o projeto enfrentou desafios técnicos relacionados à eletrônica e ao processamento de sinais. Abaixo, detalhamos os quatro principais obstáculos.
 
 ### 1. Complexidade e Tamanho dos Sinais de Ar-Condicionado
@@ -134,7 +145,7 @@ Apesar do sucesso com TVs e receptores de mídia, a integração específica com
 * **A Causa:** O protocolo proprietário da Elgin não possui documentação pública e demonstrou uma sensibilidade extrema a variações de microssegundos (*timing jitter*). As pequenas imprecisões temporais naturais da execução do código no Arduino foram suficientes para que o receptor do ar-condicionado rejeitasse o sinal como ruído.
 * **Solução/Desfecho:** Em razão das **sucessivas tentativas sem sucesso** na replicação do sinal e da instabilidade persistente na comunicação, a funcionalidade de controle remoto para este modelo de ar-condicionado foi **abandonada** no escopo final do projeto.
 
-## 10. Referências
+## 11. Referências
 * **Medição de Temperatura:** [Arduino and DHT22 Temperature Measurement](https://www.instructables.com/Arduino-and-DHT22-AM2302-Temperature-Measurement/)
 * **Conectividade Wi-Fi:** [Conectando o Arduino à internet com ESP-01](https://curtocircuito.com.br/blog/IoT/conectando-o-arduino-a-internet-com-esp01)
 * **Infravermelho:** [Guia Completo do Controle Remoto IR](https://blog.eletrogate.com/guia-completo-do-controle-remoto-ir-receptor-ir-para-arduino/)
