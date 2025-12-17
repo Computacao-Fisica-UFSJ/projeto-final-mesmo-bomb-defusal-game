@@ -74,7 +74,7 @@ A interface foi desenvolvida em React VITE, servida diretamente por conexão com
 <table style="width: 100%; text-align: center;"> 
 <tr> <td>
 <strong>Clonagem de IR</strong></td> 
-<td><strong>Monitoramento de Temperatura</strong></td> 
+<td><strong>Monitoramento de Temperatura (também disponíveis na pasta vídeos) </strong></td> 
 </tr> <tr> 
 <td> <video src="./Vídeos/clonar.mp4" width="350" controls> Seu navegador não suporta o elemento de vídeo. </video> </td> 
 <td> <video src="./Vídeos/temperatura.mp4" width="350" controls> Seu navegador não suporta o elemento de vídeo. </video> </td> 
